@@ -23,13 +23,12 @@ jobs:
         file: ./Dockerfile
         tags: api:latest
         outputs: type=docker,dest=/tmp/api_image.tar
+    - name: Upload frontend image as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: api
+        path: /tmp/api_image.tar
 
-      - name: Upload frontend image as artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: api
-          path: /tmp/api_image.tar
-  
   Lint_JavaScript:
     needs: Build
     runs-on: ubuntu-latest
