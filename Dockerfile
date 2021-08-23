@@ -11,7 +11,7 @@ FROM node:14-alpine
 WORKDIR /api
 
 COPY --from=build /api/dist ./dist
-COPY src/package* .
+COPY src/package* ./
 
 RUN npm ci
 
