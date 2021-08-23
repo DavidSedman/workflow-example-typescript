@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   Lint_Docker:
+    name: "Docker: Lint"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -13,6 +14,7 @@ jobs:
         dockerfile: Dockerfile
 
   Build:
+    name: "Build: Docker Image & Typescript"
     needs: Lint_Docker
     runs-on: ubuntu-latest
     steps:
@@ -36,7 +38,8 @@ jobs:
         name: api
         path: /tmp/api_image.tar
     
-  Lint_JavaScript:
+  Lint_TypeScript:
+    name: "TypeScript: Lint"
     needs: Build
     runs-on: ubuntu-latest
     steps:
@@ -53,9 +56,10 @@ jobs:
         docker load --input /tmp/api_image.tar
 
     - name: Run lint inside docker
-      run: docker run --volume="$GITHUB_WORKSPACE/src:/api" api:latest --entrypoint="sh" -c "npm ci && npm run lint"
+      run: docker run --volume="$(pwd)/src:/api" --entrypoint="sh" api:latest -c "npm ci && npm run lint"
     
   Dependancies:
+    name: "TypeScript: Package Dependancies"
     needs: Build
     runs-on: ubuntu-latest
     steps:
@@ -72,9 +76,10 @@ jobs:
         docker load --input /tmp/api_image.tar
 
     - name: Run dependancy Tracking inside Docker 
-      run: docker run --volume="$GITHUB_WORKSPACE/src:/api" api:latest --entrypoint="sh" -c "npm ci && npm outdated && npx depcheck"
+      run: docker run --volume="$(pwd)/src:/api" --entrypoint="sh" api:latest -c "npm ci && npm outdated && npx depcheck"
   
   Test:
+    name: "TypeScript: Automated Test"
     needs: Build
     runs-on: ubuntu-latest
     steps:
@@ -91,5 +96,5 @@ jobs:
         docker load --input /tmp/api_image.tar
 
     - name: Run automated tests inside Docker
-      run: docker run --volume="$GITHUB_WORKSPACE/src:/api" api:latest --entrypoint="sh" -c "npm ci && npm test"
+      run: docker run --volume="$(pwd)/src:/api" --entrypoint="sh" api:latest -c "npm ci && npm test"
     
