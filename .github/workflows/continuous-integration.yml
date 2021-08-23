@@ -3,7 +3,7 @@ name: Continuous Integration
 on: [push]
 
 jobs:
-  Lint Docker:
+  Lint_Docker:
     runs-on: ubuntu-latest
     steps:
     - uses: hadolint/hadolint-action@v1.5.0
@@ -11,13 +11,13 @@ jobs:
         dockerfile: Dockerfile
 
   Build:
-    needs: Lint Docker
+    needs: Lint_Docker
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - run: docker-compose build
   
-  Lint JavaScript:
+  Lint_JavaScript:
     needs: Build
     runs-on: ubuntu-latest
     steps:
