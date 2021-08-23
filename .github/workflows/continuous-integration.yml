@@ -8,12 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - uses: actions/checkout@v2
     - run: docker-compose build
   
   Lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
     - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" run lint
     
   Dependancies:
@@ -24,6 +24,5 @@ jobs:
   Test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" test
     
