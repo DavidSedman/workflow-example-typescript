@@ -1,8 +1,11 @@
 {
   "name": "src",
   "version": "1.0.0",
-  "description": "",
+  "description": "A workflow example for TypeScript",
   "main": "dist/index.js",
+  "repository": {
+    "url": "https://github.com/DavidSedman/workflow-example-typescript"
+  },
   "engines": {
     "node": ">=14"
   },
@@ -16,11 +19,10 @@
     "test": "jest --runInBand"
   },
   "keywords": [],
-  "author": "",
+  "author": "David Sedman",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
-    "node-notifier": "^10.0.0"
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
@@ -32,6 +34,7 @@
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
     "babel-jest": "^27.0.6",
+    "depcheck": "^1.4.2",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",

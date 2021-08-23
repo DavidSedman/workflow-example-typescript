@@ -1,0 +1,29 @@
+name: Continuous Integration
+
+on: [push]
+
+jobs:
+  
+  Build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - run: docker-compose build
+  
+  Lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" run lint
+    
+  Dependancies:
+    runs-on: ubuntu-latest
+    steps:
+    - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" outdated && npx depcheck
+  
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" test
+    
