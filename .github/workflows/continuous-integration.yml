@@ -25,32 +25,16 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        no-cache: true
         push: false
         file: ./Dockerfile
         tags: api:latest
         outputs: type=docker,dest=/tmp/api_image.tar
     
-    - name: Upload frontend image as artifact
+    - name: Upload image as artifact
       uses: actions/upload-artifact@v2
       with:
         name: api
         path: /tmp/api_image.tar
-  Show_Images:
-    needs: Build
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download artifacts (Docker images) from previous workflows
-      uses: actions/download-artifact@v2
-      with:
-        name: api
-        path: /tmp
-    
-    - name: Load Docker images from previous workflows
-      run: |
-        docker load --input /tmp/api_image.tar 
-    
-    - run: docker image ls
     
   Lint_JavaScript:
     needs: Build
@@ -69,7 +53,7 @@ jobs:
         docker load --input /tmp/api_image.tar
 
     - name: Run lint inside docker
-      run: docker run -it --volume="$(pwd)/src:/api" api:latest --entrypoint="npm" run lint
+      run: docker run --volume="$GITHUB_WORKSPACE/src:/api" api:latest --entrypoint="npm" run lint
     
   Dependancies:
     needs: Build
@@ -88,7 +72,7 @@ jobs:
         docker load --input /tmp/api_image.tar
 
     - name: Run dependancy Tracking inside Docker 
-      run: docker run -it --volume="$(pwd)/src:/api" api:latest --entrypoint="npm" outdated && npx depcheck
+      run: docker run --volume="$GITHUB_WORKSPACE/src:/api" api:latest --entrypoint="npm" outdated && npx depcheck
   
   Test:
     needs: Build
@@ -107,5 +91,5 @@ jobs:
         docker load --input /tmp/api_image.tar
 
     - name: Run automated tests inside Docker
-      run: docker run -it --volume="$(pwd)/src:/api" api:latest --entrypoint="npm" test
+      run: docker run --volume="$GITHUB_WORKSPACE/src:/api" api:latest --entrypoint="npm" test
     
