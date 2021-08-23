@@ -3,29 +3,38 @@ name: Continuous Integration
 on: [push]
 
 jobs:
-  
-  Build:
+  Lint Docker:
     runs-on: ubuntu-latest
-    
+    steps:
+    - uses: hadolint/hadolint-action@v1.5.0
+      with:
+        dockerfile: Dockerfile
+
+  Build:
+    needs: Lint Docker
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - run: docker-compose build
   
-  Lint:
+  Lint JavaScript:
     needs: Build
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" run lint
     
   Dependancies:
     needs: Build
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" outdated && npx depcheck
   
   Test:
     needs: Build
     runs-on: ubuntu-latest
     steps:
-      - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" test
+    - uses: actions/checkout@v2
+    - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" test
     
