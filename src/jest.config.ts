@@ -20,7 +20,6 @@ export default {
   },
   moduleDirectories: ['node_modules'],
   moduleFileExtensions: ['ts', 'js'],
-  notify: true,
   reporters: [
     'default',
     [
