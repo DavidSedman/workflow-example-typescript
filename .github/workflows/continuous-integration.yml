@@ -57,19 +57,55 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" run lint
+    
+    - name: Download artifacts (Docker images) from previous workflows
+      uses: actions/download-artifact@v2
+      with:
+        name: api
+        path: /tmp
+    
+    - name: Load Docker images from previous workflows
+      run: |
+        docker load --input /tmp/api_image.tar
+
+    - name: Run lint inside docker
+      run: docker run -it --volume="$(pwd)/src:/api" api:latest --entrypoint="npm" run lint
     
   Dependancies:
     needs: Build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" outdated && npx depcheck
+
+    - name: Download artifacts (Docker images) from previous workflows
+      uses: actions/download-artifact@v2
+      with:
+        name: api
+        path: /tmp
+    
+    - name: Load Docker images from previous workflows
+      run: |
+        docker load --input /tmp/api_image.tar
+
+    - name: Run dependancy Tracking inside Docker 
+      run: docker run -it --volume="$(pwd)/src:/api" api:latest --entrypoint="npm" outdated && npx depcheck
   
   Test:
     needs: Build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" test
+
+    - name: Download artifacts (Docker images) from previous workflows
+      uses: actions/download-artifact@v2
+      with:
+        name: api
+        path: /tmp
+    
+    - name: Load Docker images from previous workflows
+      run: |
+        docker load --input /tmp/api_image.tar
+
+    - name: Run automated tests inside Docker
+      run: docker run -it --volume="$(pwd)/src:/api" api:latest --entrypoint="npm" test
     
