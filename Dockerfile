@@ -6,7 +6,7 @@ COPY src .
 
 RUN npm i && npm run build
 
-FROM node:14-alpine
+FROM node:14.17-alpine
 
 WORKDIR /api
 
