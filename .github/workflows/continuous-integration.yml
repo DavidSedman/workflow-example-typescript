@@ -20,6 +20,8 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
+        no-cache: true
+        push: false
         file: ./Dockerfile
         tags: api:latest
         outputs: type=docker,dest=/tmp/api_image.tar
