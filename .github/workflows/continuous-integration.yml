@@ -12,16 +12,19 @@ jobs:
     - run: docker-compose build
   
   Lint:
+    needs: Build
     runs-on: ubuntu-latest
     steps:
     - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" run lint
     
   Dependancies:
+    needs: Build
     runs-on: ubuntu-latest
     steps:
     - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" outdated && npx depcheck
   
   Test:
+    needs: Build
     runs-on: ubuntu-latest
     steps:
       - run: docker run -it --volume="$(pwd)/src:/api" workflow-example-typescript_api --entrypoint="npm" test
