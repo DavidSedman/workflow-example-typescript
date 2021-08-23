@@ -53,7 +53,7 @@ jobs:
         docker load --input /tmp/api_image.tar
 
     - name: Run lint inside docker
-      run: docker run --volume="$GITHUB_WORKSPACE/src:/api" api:latest --entrypoint="npm" ci && npm run lint
+      run: docker run --volume="$GITHUB_WORKSPACE/src:/api" api:latest --entrypoint="sh" -c "npm ci && npm run lint"
     
   Dependancies:
     needs: Build
@@ -72,7 +72,7 @@ jobs:
         docker load --input /tmp/api_image.tar
 
     - name: Run dependancy Tracking inside Docker 
-      run: docker run --volume="$GITHUB_WORKSPACE/src:/api" api:latest --entrypoint="npm" ci && npm outdated && npx depcheck
+      run: docker run --volume="$GITHUB_WORKSPACE/src:/api" api:latest --entrypoint="sh" -c "npm ci && npm outdated && npx depcheck"
   
   Test:
     needs: Build
@@ -91,5 +91,5 @@ jobs:
         docker load --input /tmp/api_image.tar
 
     - name: Run automated tests inside Docker
-      run: docker run --volume="$GITHUB_WORKSPACE/src:/api" api:latest --entrypoint="npm" ci && npm test
+      run: docker run --volume="$GITHUB_WORKSPACE/src:/api" api:latest --entrypoint="sh" -c "npm ci && npm test"
     
