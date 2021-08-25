@@ -106,3 +106,14 @@ jobs:
         report_individual_runs: true
         compare_to_earlier_commit: true
         files: "src/__testing__/results/results.xml" 
+    
+    - name: Publish Coverage
+        uses: zolex/cobertura-action@9.1.0
+        with:
+          path: "src/__testing__/results/cobertura-coverage.xml"
+          use_annotations: true
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          minimum_coverage: 75
+          skip_covered: false
+          fail_below_threshold: true
+          pull_request_number: ${{ needs.checkout.outputs.pull_request }}

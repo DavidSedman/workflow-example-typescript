@@ -3,7 +3,7 @@ export default {
   collectCoverage: true,
   //collectCoverageFrom: ['<rootDir>/api/**/*.ts'],
   coverageDirectory: '__testing__/coverage',
-  coverageReporters: ['lcov', 'clover', 'text-summary'],
+  coverageReporters: ['lcov', 'cobertura', 'text-summary'],
   coverageThreshold: {
     global: {
       branches: 90,
