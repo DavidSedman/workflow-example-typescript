@@ -110,7 +110,7 @@ jobs:
     - name: Publish Coverage
       uses: zolex/cobertura-action@9.1.0
       with:
-        path: "src/__testing__/results/cobertura-coverage.xml"
+        path: "src/__testing__/coverage/cobertura-coverage.xml"
         use_annotations: true
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         minimum_coverage: 75
