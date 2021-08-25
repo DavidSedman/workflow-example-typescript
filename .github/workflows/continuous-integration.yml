@@ -108,4 +108,4 @@ jobs:
         files: "$(pwd)/src/__testing__/results/report.xml"
     
     - name: Check folders
-      run: ls -al 
+      run: ls -al && cd src/__testing__/results && ls -al 
