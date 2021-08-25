@@ -98,3 +98,11 @@ jobs:
     - name: Run automated tests inside Docker
       run: docker run --volume="$(pwd)/src:/api" --entrypoint="sh" api:latest -c "npm ci && npm test"
     
+    - name: Publish Report
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      with:
+        check_name: Test Results
+        comment_title: Test Results
+        report_individual_runs: true
+        compare_to_earlier_commit: true
+        files: "$(pwd)/src/__testing__/results/report.xml"
