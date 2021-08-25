@@ -106,3 +106,6 @@ jobs:
         report_individual_runs: true
         compare_to_earlier_commit: true
         files: "$(pwd)/src/__testing__/results/report.xml"
+    
+    - name: Check folders
+      run: ls -al 
