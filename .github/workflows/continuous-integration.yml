@@ -76,7 +76,7 @@ jobs:
         docker load --input /tmp/api_image.tar
 
     - name: Run dependancy Tracking inside Docker 
-      run: docker run --volume="$(pwd)/src:/api" --entrypoint="sh" api:latest -c "npm ci && npm outdated && npx depcheck"
+      run: docker run --volume="$(pwd)/src:/api" --entrypoint="sh" api:latest -c "npm ci && npm run depend"
   
   Test:
     name: "TypeScript: Automated Test"

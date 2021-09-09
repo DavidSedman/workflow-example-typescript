@@ -17,7 +17,7 @@
     "start": "node .",
     "development": "nodemon --config nodemon.json index.ts",
     "test": "jest --runInBand",
-    "check-dep": "npm outdated && depcheck"
+    "depend": "node ./__scripts__/outdated.js && depcheck"
   },
   "keywords": [],
   "author": "David Sedman",
