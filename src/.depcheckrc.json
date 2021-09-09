@@ -1,3 +1,11 @@
 {
-    "ignores": ["@babel/*", "babel*", "depcheck", "eslint", "jest*", "ts-*", "*types/*"]
+  "ignores": [
+    "@babel/*",
+    "babel*",
+    "depcheck",
+    "eslint",
+    "jest*",
+    "ts-*",
+    "*types/*"
+  ]
 }
